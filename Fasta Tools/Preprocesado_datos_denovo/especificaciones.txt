@@ -1,0 +1,14 @@
+Este script recibe como entrada un archivo .csv y devuelve como resultado un fichero .fasta
+
+El fichero de entrada .csv contiene la siguiente información: una primera linea donde indica las etiquetas de cada "columna", y luego en las siguientes lineas ya tenemos los datos en diferentes columnas.
+Información de cada columna:
+Columna 1 (Source File): contiene una etiqueta que identifica el experimento.
+Columna 2 (Scan): contiene un numero identificador.
+Columna 3 (Peptide): Contiene la secuencia de aminoacidos detectada.
+Columna 4: no es importante para esta herramienta.
+Columna 5 (ALC): contiene un numero que indica el porcentaje de calidad del peptido.
+
+El fichero fasta de salida se construirá con la siguiente sintaxis:
+La identificacion de cada secuencia se construirá a partir de la columna 1 y 2, separadas con el caracter "_".
+Solo contendrán secuencias que sean iguales o superiores a un porcentaje de calidad indicado como parametro. Por ejemplo, si indicamos 80, solo contendrá las secuencias que en la quinta columna (ALC) tenga un valor igual o superior a 80.
+Además, es posible que en las secuencias de aminoacidos del fichero de entrada haya información entre paréntesis, por ejemplo AAC(informacion)CACA. Se descarta todo lo que esté entre parentesis y nos quedamos solo con la secuencia de aminoacidos.

@@ -1,0 +1,1 @@
+Este script permite seleccionar un directorio resultante de rupee_filter_output y transformarlo en un directorio resultante de la nueva version de Rupee con el formato corregido.

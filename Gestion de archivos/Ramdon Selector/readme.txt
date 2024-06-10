@@ -1,0 +1,1 @@
+Este script se utiliza para copiar aleatoriamente un número de ficheros indicado, desde un directorio a otro.

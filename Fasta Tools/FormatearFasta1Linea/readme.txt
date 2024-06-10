@@ -1,0 +1,1 @@
+Este script sirve para formatear un archivo fasta de modo que cada secuencia quede en una sola linea, sin saltos de linea.
