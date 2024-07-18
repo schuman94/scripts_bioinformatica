@@ -4,7 +4,7 @@ n,file_name,db_id,rmsd,tm_score,search_mode,search_type.
 También recibe como entrada un excel con la anotación de familias farmacologicas (descargado de Uniprot).
 
 El script procesa en un dataframe el fichero csv y crea una nueva columna (rmsd/tm_score) que es el resultado de dividir el valor de la columna rmsd entre la columna tm_score.
-Una vez hecho con todas las filas, se escoge la fila cuyo valor rmsd/tm_score sea más cercano a 0, es decir, más pequeño (pero siempre debe ser numero positivo).
+Una vez hecho con todas las filas, se escoge la fila cuyo valor rmsd/tm_score sea más cercano a 0, es decir, más pequeño (pero siempre debe ser numero positivo o 0).
 
 De esa fila elegida, se obtiene file_name, db_id y rmsd/tm_score
 

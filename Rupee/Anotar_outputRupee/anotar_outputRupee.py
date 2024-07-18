@@ -46,7 +46,7 @@ def process_files():
             df["rmsd/tm_score"] = df["rmsd"] / df["tm_score"]
 
             # Obtener la fila con el valor rmsd/tm_score más cercano a 0
-            df = df[df["rmsd/tm_score"] > 0]  # Asegurarse de que el valor sea positivo
+            df = df[df["rmsd/tm_score"] >= 0]  # Asegurarse de que el valor sea positivo
             selected_row = df.loc[df["rmsd/tm_score"].idxmin()]
 
             file_name = selected_row["file_name"]
