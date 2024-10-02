@@ -30,7 +30,14 @@ def filter_sequences():
     mass_file_path = convertir_a_ruta_larga(mass_file_entry.get())
     output_dir = convertir_a_ruta_larga(dir_entry.get())
 
-    # Check for valid input and output files/directories
+    # Obtener el índice de la columna de masas especificado por el usuario
+    try:
+        mass_column_index = int(mass_column_entry.get()) - 1
+    except ValueError:
+        messagebox.showerror("Error", "Por favor, proporciona un índice de columna válido para las masas.")
+        return
+
+    # Validar archivos y directorios
     if not file_path or not output_dir or not mass_file_path:
         messagebox.showerror("Error", "Por favor, proporciona tanto un archivo de entrada como un directorio de salida y un archivo de masas.")
         return
@@ -38,8 +45,26 @@ def filter_sequences():
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
+    # Leer archivo de masas como un TSV y extraer la columna especificada
     with open(mass_file_path, 'r') as mass_file:
-        mass_list = [float(line.strip()) for line in mass_file.readlines() if line.strip()]
+        mass_list = []
+        lines_mass = mass_file.readlines()
+
+        # Intentar detectar encabezado
+        try:
+            float(lines_mass[0].strip().split()[mass_column_index])
+        except ValueError:
+            # Primera línea es un encabezado, omitirla
+            lines_mass = lines_mass[1:]
+
+        for line in lines_mass:
+            try:
+                # Extraer el valor de la columna especificada
+                mass = float(line.strip().split()[mass_column_index])
+                mass_list.append(mass)
+            except (ValueError, IndexError):
+                # Ignorar líneas que no se puedan convertir a float o que no tengan suficientes columnas
+                continue
 
     results = []
 
@@ -124,15 +149,20 @@ mass_file_entry.grid(row=4, column=1)
 mass_file_button = tk.Button(root, text="Seleccionar", command=lambda: browse_file(mass_file_entry))
 mass_file_button.grid(row=4, column=2)
 
+# Mass column index
+tk.Label(root, text="¿En qué columna se encuentran las masas? (1, 2...): ").grid(row=5, column=0)
+mass_column_entry = tk.Entry(root)
+mass_column_entry.grid(row=5, column=1)
+
 # Output directory
-tk.Label(root, text="Directorio de salida: ").grid(row=5, column=0)
+tk.Label(root, text="Directorio de salida: ").grid(row=6, column=0)
 dir_entry = tk.Entry(root)
-dir_entry.grid(row=5, column=1)
+dir_entry.grid(row=6, column=1)
 dir_button = tk.Button(root, text="Seleccionar", command=lambda: browse_directory(dir_entry))
-dir_button.grid(row=5, column=2)
+dir_button.grid(row=6, column=2)
 
 # Execute button
 execute_button = tk.Button(root, text="Ejecutar", command=filter_sequences)
-execute_button.grid(row=6, column=1)
+execute_button.grid(row=7, column=1)
 
 root.mainloop()
