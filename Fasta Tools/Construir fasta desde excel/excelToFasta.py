@@ -11,6 +11,10 @@ def convertir_a_ruta_larga(ruta):
             ruta = '\\\\?\\' + ruta
     return ruta
 
+def clean_text(text):
+    # Eliminar caracteres problemáticos, como el espacio de ancho cero
+    return str(text).replace('\u200b', '')
+
 def browse_excel_file(entry):
     filename = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx;*.xls")])
     entry.delete(0, tk.END)
@@ -35,10 +39,10 @@ def execute_conversion(excel_file_entry, output_file_entry):
             messagebox.showerror("Error", "El archivo Excel debe tener al menos dos columnas.")
             return
 
-        with open(output_file, 'w') as fasta_file:
+        with open(output_file, 'w', encoding='utf-8') as fasta_file:
             for index, row in df.iterrows():
-                identifier = row.iloc[0]
-                sequence = row.iloc[1]
+                identifier = clean_text(row.iloc[0])
+                sequence = clean_text(row.iloc[1])
                 fasta_file.write(f'>{identifier}\n')
                 fasta_file.write(f'{sequence}\n')
 
