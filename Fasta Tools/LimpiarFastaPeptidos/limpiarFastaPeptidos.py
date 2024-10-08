@@ -63,7 +63,7 @@ def filtrar_secuencias():
 
         # Escribir secuencias filtradas al archivo de salida
         with open(archivo_salida, "w") as output_handle:
-            SeqIO.write(secuencias_filtradas, output_handle, "fasta")
+            SeqIO.write(secuencias_filtradas, output_handle, "fasta-2line")
 
         messagebox.showinfo("Resultado", f"Total de secuencias originales: {total_secuencias}\n"
                                          f"Total de secuencias después de filtrar: {len(secuencias_filtradas)}\n"
