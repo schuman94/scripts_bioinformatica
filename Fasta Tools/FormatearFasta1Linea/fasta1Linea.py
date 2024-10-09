@@ -11,17 +11,25 @@ def convertir_a_ruta_larga(ruta):
             ruta = '\\\\?\\' + ruta
     return ruta
 
-# Función para convertir FASTA
+# Función para convertir FASTA a una línea por secuencia
 def convertir_fasta():
     archivo_entrada = convertir_a_ruta_larga(archivo_fasta_entry.get())
     directorio_salida = convertir_a_ruta_larga(directorio_entry.get())
-    archivo_salida = convertir_a_ruta_larga(os.path.join(directorio_salida, "secuencia_una_linea.fasta"))
+
+    # Obtener el nombre base del archivo de entrada y su extensión
+    nombre_base, extension = os.path.splitext(os.path.basename(archivo_entrada))
+
+    # Crear el nuevo nombre de archivo añadiendo "fasta-2line" antes de la extensión
+    archivo_salida = convertir_a_ruta_larga(os.path.join(directorio_salida, f"{nombre_base}_fasta-2line{extension}"))
 
     try:
+        # Leer las secuencias del archivo de entrada
+        secuencias = list(SeqIO.parse(archivo_entrada, "fasta"))
+
+        # Escribir el archivo de salida en formato fasta-2line
         with open(archivo_salida, "w") as salida:
-            for registro in SeqIO.parse(archivo_entrada, "fasta"):
-                salida.write(f">{registro.description}\n")
-                salida.write(f"{str(registro.seq)}\n")
+            SeqIO.write(secuencias, salida, "fasta-2line")
+
         messagebox.showinfo("Éxito", f"Archivo convertido exitosamente y guardado en {archivo_salida}")
     except Exception as e:
         messagebox.showerror("Error", f"Ocurrió un error: {str(e)}")
